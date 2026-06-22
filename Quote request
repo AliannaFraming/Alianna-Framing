@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+<html lang="en-AU">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Request a Quote — Alianna Art & Framing</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --cream: #f5f0e8;
+    --warm-white: #faf8f4;
+    --charcoal: #2a2520;
+    --mid: #6b635a;
+    --light: #b0a89e;
+    --gold: #c9a96e;
+    --gold-dark: #a07c42;
+    --border: #e0d8ce;
+    --radius: 4px;
+  }
+
+  html { font-size: 16px; }
+
+  body {
+    font-family: Georgia, 'Times New Roman', serif;
+    background: var(--warm-white);
+    color: var(--charcoal);
+    min-height: 100vh;
+  }
+
+  a { color: var(--gold-dark); }
+
+  /* NAV */
+  nav {
+    background: var(--warm-white);
+    border-bottom: 1px solid var(--border);
+    padding: 0 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 64px;
+  }
+  .nav-logo {
+    font-size: 17px;
+    font-weight: normal;
+    letter-spacing: 0.04em;
+    color: var(--charcoal);
+    text-decoration: none;
+  }
+  .nav-back {
+    font-family: -apple-system, Arial, sans-serif;
+    font-size: 13px;
+    color: var(--mid);
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .nav-back:hover { color: var(--charcoal); }
+  .nav-back::before { content: '←'; }
+
+  /* HERO */
+  .hero {
+    background: var(--cream);
+    border-bottom: 1px solid var(--border);
+    padding: 3.5rem 2rem 3rem;
+    text-align: center;
+  }
+  .hero-eyebrow {
+    font-family: -apple-system, Arial, sans-serif;
+    font-size: 11px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--gold-dark);
+    margin-bottom: 1rem;
+  }
+  .hero h1 {
+    font-size: clamp(26px, 5vw, 40px);
+    font-weight: normal;
+    line-height: 1.2;
+    color: var(--charcoal);
+    margin-bottom: 1rem;
+  }
+  .hero p {
+    font-family: -apple-system, Arial, sans-serif;
+    font-size: 15px;
+    color: var(--mid);
+    max-width: 480px;
+    margin: 0 auto;
+    line-height: 1.6;
+  }
+
+  /* LAYOUT */
+  .page-body {
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 3rem 2rem 4rem;
+    display: grid;
+    grid-template-columns: 1fr 340px;
+    gap: 3rem;
+    align-items: start;
+  }
+
+  @media (max-width: 700px) {
+    .page-body { grid-template-columns: 1fr; gap: 2rem; }
+    .sidebar { order: -1; }
+  }
+
+  /* FORM */
+  .form-section h2 {
+    font-size: 18px;
+    font-weight: normal;
+    color: var(--charcoal);
+    margin-bottom: 1.5rem;
+    padding-bottom: 0.75rem;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .field { margin-bottom: 1.25rem; }
+
+  .field label {
+    display: block;
+    font-family: -apple-system, Arial, sans-serif;
+    font-size: 12px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--mid);
+    margin-bottom: 6px;
+  }
+
+  .field input,
+  .field select,
+  .field textarea {
+    width: 100%;
+    padding: 10px 12px;
+    font-family: -apple-system, Arial, sans-serif;
+    font-size: 14px;
+    color: var(--charcoal);
+    background: #fff;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    outline: none;
+    transition: border-color 0.15s;
+    -webkit-appearance: none;
+  }
+
+  .field input:focus,
+  .field select:focus,
+  .field textarea:focus {
+    border-color: var(--gold);
+  }
+
+  .field textarea { height: 100px; resize: vertical; line-height: 1.5; }
+
+  .field-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+  }
+
+  @media (max-width: 480px) {
+    .field-row { grid-template-columns: 1fr; }
+  }
+
+  .required { color: var(--gold-dark); }
+
+  .field .hint {
+    font-family: -apple-system, Arial, sans-serif;
+    font-size: 12px;
+    color: var(--light);
+    margin-top: 4px;
+  }
+
+  .submit-btn {
+    width: 100%;
+    padding: 13px;
+    font-family: -apple-system, Arial, sans-serif;
+    font-size: 14px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: #fff;
+    background: var(--charcoal);
+    border: none;
+    border-radius: var(--radius);
+    cursor: pointer;
+    margin-top: 0.5rem;
+    transition: background 0.15s;
+  }
+  .submit-btn:hover { background: var(--gold-dark); }
+
+  .privacy-note {
+    font-family: -apple-system, Arial, sans-serif;
+    font-size: 11px;
+    color: var(--light);
+    text-align: center;
+    margin-top: 10px;
+    line-height: 1.5;
+  }
+
+  /* SUCCESS */
+  .success-msg {
+    display: none;
+    background: #f0f7f0;
+    border: 1px solid #b8ddb8;
+    border-radius: var(--radius);
+    padding: 1.5rem;
+    text-align: center;
+    margin-bottom: 1.5rem;
+  }
+  .success-msg p {
+    font-family: -apple-system, Arial, sans-serif;
+    font-size: 14px;
+    color: #2d5a2d;
+    line-height: 1.6;
+  }
+
+  /* SIDEBAR */
+  .sidebar { }
+
+  .info-card {
+    background: var(--cream);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 1.5rem;
+    margin-bottom: 1.25rem;
+  }
+
+  .info-card h3 {
+    font-size: 14px;
+    font-weight: normal;
+    letter-spacing: 0.04em;
+    color: var(--charcoal);
+    margin-bottom: 0.75rem;
+  }
+
+  .info-card p,
+  .info-card li {
+    font-family: -apple-system, Arial, sans-serif;
+    font-size: 13px;
+    color: var(--mid);
+    line-height: 1.6;
+  }
+
+  .info-card ul {
+    list-style: none;
+    padding: 0;
+  }
+
+  .info-card ul li {
+    padding: 4px 0;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .info-card ul li:last-child { border-bottom: none; }
+  .info-card ul li::before {
+    content: '';
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: var(--gold);
+    flex-shrink: 0;
+  }
+
+  .contact-line {
+    font-family: -apple-system, Arial, sans-serif;
+    font-size: 13px;
+    color: var(--mid);
+    margin-bottom: 8px;
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    line-height: 1.5;
+  }
+  .contact-label {
+    font-size: 11px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--light);
+    min-width: 52px;
+  }
+
+  .kinaway-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: #fff;
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 5px 12px;
+    font-family: -apple-system, Arial, sans-serif;
+    font-size: 11px;
+    color: var(--mid);
+    margin-top: 0.75rem;
+  }
+  .kinaway-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--gold);
+  }
+
+  /* FOOTER */
+  footer {
+    background: var(--cream);
+    border-top: 1px solid var(--border);
+    padding: 1.5rem 2rem;
+    text-align: center;
+    font-family: -apple-system, Arial, sans-serif;
+    font-size: 12px;
+    color: var(--light);
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="https://alianna.com.au" class="nav-logo">Alianna Art &amp; Framing</a>
+  <a href="https://alianna.com.au" class="nav-back">Back to website</a>
+</nav>
+
+<div class="hero">
+  <div class="hero-eyebrow">Kinaway certified Aboriginal business</div>
+  <h1>Request a quote</h1>
+  <p>Tell us about your project and we'll get back to you with a clear, tailored quote. Individuals and small jobs very welcome.</p>
+</div>
+
+<div class="page-body">
+
+  <div class="form-section">
+    <h2>Your details</h2>
+
+    <div id="success-msg" class="success-msg">
+      <p><strong>Thank you — enquiry received.</strong><br>We'll be in touch at the email address you provided.</p>
+    </div>
+
+    <form id="quote-form" action="https://formspree.io/f/YOUR_FORM_ID" method="POST">
+      <input type="hidden" name="_subject" value="New quote request — Alianna Art & Framing">
+      <input type="hidden" name="_replyto" id="reply-to-hidden">
+
+      <div class="field-row">
+        <div class="field">
+          <label for="name">Name <span class="required">*</span></label>
+          <input type="text" id="name" name="name" required placeholder="Your full name">
+        </div>
+        <div class="field">
+          <label for="org">Organisation</label>
+          <input type="text" id="org" name="organisation" placeholder="School, council, gallery…">
+        </div>
+      </div>
+
+      <div class="field-row">
+        <div class="field">
+          <label for="role">Your role</label>
+          <input type="text" id="role" name="role" placeholder="e.g. Arts coordinator">
+        </div>
+        <div class="field">
+          <label for="org-type">Organisation type</label>
+          <select id="org-type" name="organisation_type">
+            <option value="">Select…</option>
+            <option>School</option>
+            <option>Council / local government</option>
+            <option>University</option>
+            <option>Arts organisation / gallery</option>
+            <option>Government department</option>
+            <option>Corporate</option>
+            <option>Individual / private (small job welcome)</option>
+            <option>Other</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="field-row">
+        <div class="field">
+          <label for="email">Email <span class="required">*</span></label>
+          <input type="email" id="email" name="email" required placeholder="you@organisation.com.au" oninput="document.getElementById('reply-to-hidden').value=this.value">
+        </div>
+        <div class="field">
+          <label for="phone">Phone</label>
+          <input type="tel" id="phone" name="phone" placeholder="04xx xxx xxx">
+        </div>
+      </div>
+
+      <div class="field">
+        <label for="project">Tell us about your project <span class="required">*</span></label>
+        <textarea id="project" name="project_details" required placeholder="What needs framing? Canvas stretching? Roughly how many pieces? Any particular materials, styles, or sizes? When do you need it by? No job too small."></textarea>
+        <div class="hint">As much or as little detail as you have — we can work it out together.</div>
+      </div>
+
+      <div class="field-row">
+        <div class="field">
+          <label for="timeline">Timeline</label>
+          <select id="timeline" name="timeline">
+            <option value="">Not sure yet</option>
+            <option>As soon as possible</option>
+            <option>Within 2 weeks</option>
+            <option>Within a month</option>
+            <option>1–3 months</option>
+            <option>Planning ahead (3+ months)</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="contact-pref">Preferred contact</label>
+          <select id="contact-pref" name="preferred_contact">
+            <option value="">No preference</option>
+            <option>Email</option>
+            <option>Phone call</option>
+            <option>Text message</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="field">
+        <label for="heard">How did you hear about us?</label>
+        <select id="heard" name="how_heard">
+          <option value="">Select…</option>
+          <option>Deadly in Melbourne Expo</option>
+          <option>ICN Aboriginal Business Showcase</option>
+          <option>Instagram</option>
+          <option>Word of mouth / referral</option>
+          <option>Google search</option>
+          <option>Kinaway directory</option>
+          <option>Other</option>
+        </select>
+      </div>
+
+      <button type="submit" class="submit-btn">Send quote request</button>
+      <p class="privacy-note">Your details are used only to respond to your enquiry and will not be shared with third parties.</p>
+    </form>
+  </div>
+
+  <aside class="sidebar">
+    <div class="info-card">
+      <h3>What we frame</h3>
+      <ul>
+        <li>Artworks, prints &amp; photographs</li>
+        <li>Canvas stretching &amp; framing</li>
+        <li>Certificates &amp; documents</li>
+        <li>Bulk &amp; organisational projects</li>
+        <li>Exhibition &amp; display preparation</li>
+        <li>Archival &amp; conservation framing</li>
+      </ul>
+    </div>
+
+    <div class="info-card">
+      <h3>Who we work with</h3>
+      <ul>
+        <li>Artists &amp; individuals with smaller jobs</li>
+        <li>Schools &amp; universities</li>
+        <li>Local councils</li>
+        <li>Arts organisations &amp; galleries</li>
+        <li>Government departments</li>
+        <li>Corporate &amp; commercial clients</li>
+      </ul>
+      <div class="kinaway-badge">
+        <div class="kinaway-dot"></div>
+        Kinaway certified Aboriginal business
+      </div>
+    </div>
+
+    <div class="info-card">
+      <h3>Get in touch directly</h3>
+      <div class="contact-line">
+        <span class="contact-label">Email</span>
+        <a href="mailto:hello@alianna.com.au">hello@alianna.com.au</a>
+      </div>
+      <div class="contact-line">
+        <span class="contact-label">Phone</span>
+        <span>0466 707 903</span>
+      </div>
+      <div class="contact-line">
+        <span class="contact-label">Location</span>
+        <span>Bayswater North, Melbourne VIC</span>
+      </div>
+    </div>
+  </aside>
+
+</div>
+
+<footer>
+  <p>Alianna Art &amp; Framing acknowledges the Wurundjeri Woi Wurrung peoples of the Kulin Nation, Traditional Custodians of the land on which we operate.</p>
+  <p style="margin-top:6px;">© 2026 Alianna Art &amp; Framing · <a href="https://alianna.com.au">alianna.com.au</a></p>
+</footer>
+
+<script>
+  document.getElementById('quote-form').addEventListener('submit', async function(e) {
+    e.preventDefault();
+    const btn = this.querySelector('.submit-btn');
+    btn.textContent = 'Sending…';
+    btn.disabled = true;
+
+    try {
+      const res = await fetch(this.action, {
+        method: 'POST',
+        body: new FormData(this),
+        headers: { 'Accept': 'application/json' }
+      });
+
+      if (res.ok) {
+        document.getElementById('success-msg').style.display = 'block';
+        this.style.display = 'none';
+        document.getElementById('success-msg').scrollIntoView({ behavior: 'smooth', block: 'center' });
+      } else {
+        btn.textContent = 'Send quote request';
+        btn.disabled = false;
+        alert('Something went wrong — please email us directly at hello@alianna.com.au');
+      }
+    } catch(err) {
+      btn.textContent = 'Send quote request';
+      btn.disabled = false;
+      alert('Something went wrong — please email us directly at hello@alianna.com.au');
+    }
+  });
+</script>
+
+</body>
+</html>
